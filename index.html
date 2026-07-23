@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Lesson Flashcards</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background-color: #f0f2f5; margin: 0; padding: 20px; box-sizing: border-box; }
+        .progress { font-size: 16px; color: #666; margin-bottom: 15px; font-weight: bold; }
+        .card-container { width: 100%; max-width: 400px; height: 280px; perspective: 1000px; cursor: pointer; margin-bottom: 25px; }
+        .card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.4s; box-shadow: 0 6px 20px rgba(0,0,0,0.1); border-radius: 15px; }
+        .card.flipped { transform: rotateY(180deg); }
+        .front, .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 25px; box-sizing: border-box; border: 2px solid #ff4b4b; }
+        .front { background-color: #ffffff; color: #333; }
+        .back { background-color: #f9f9f9; color: #333; transform: rotateY(180deg); text-align: center; overflow-y: auto; }
+        .chinese { font-size: 32px; font-weight: bold; margin-bottom: 15px; color: #222; text-align: center; line-height: 1.4; }
+        .pinyin { font-size: 20px; color: #666; font-style: italic; margin-bottom: 15px; line-height: 1.3; }
+        .english { font-size: 16px; color: #333; line-height: 1.5; background: #fff1f1; padding: 12px; border-radius: 8px; border-left: 4px solid #ff4b4b; width: 100%; box-sizing: border-box; text-align: left; white-space: pre-line; }
+        .controls { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+        button { padding: 12px 24px; font-size: 16px; border: none; background-color: #ff4b4b; color: white; border-radius: 8px; cursor: pointer; transition: background 0.2s, transform 0.1s; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        button:hover { background-color: #e04343; }
+        button:active { transform: scale(0.98); }
+        .hint { color: #bbb; font-size: 13px; margin-top: 10px; }
+        #error-msg { color: red; font-weight: bold; text-align: center; display: none; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+    <div id="error-msg">Không tìm thấy bài học này! Vui lòng kiểm tra lại liên kết.</div>
+    <div class="progress" id="progress">Đang tải dữ liệu...</div>
+    
+    <div class="card-container" onclick="flipCard()">
+        <div class="card" id="flashcard">
+            <div class="front">
+                <div class="chinese" id="front-chinese">...</div>
+                <div class="hint">(Nhấp để lật mặt sau)</div>
+            </div>
+            <div class="back">
+                <div class="chinese" id="back-chinese">...</div>
+                <div class="pinyin" id="back-pinyin">...</div>
+                <div class="english" id="back-english">...</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button onclick="prevCard(event)">⬅️ Trước</button>
+        <button onclick="flipCard(event)">🔄 Lật</button>
+        <button onclick="nextCard(event)">Sau ➡️</button>
+    </div>
+
+    <script>
+        let vocab = [];
+        let currentIndex = 0;
+
+        // 1. Get the lesson parameter from the browser URL (e.g. ?lesson=001_read_book)
+        const urlParams = new URLSearchParams(window.location.search);
+        const lessonName = urlParams.get('lesson') || '001_read_book';
+
+        // 2. Fetch the CSV file directly from your repository folder
+        fetch(`lessons/${lessonName}.csv`)
+            .then(response => {
+                if (!response.ok) throw new Error('File not found');
+                return response.text();
+            })
+            .then(data => {
+                parseCSV(data);
+                if (vocab.length > 0) {
+                    updateCard();
+                } else {
+                    showError();
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                showError();
+            });
+
+        // 3. Simple CSV Parser function to read lines properly
+        function parseCSV(text) {
+            const lines = text.split(/\r?\n/);
+            // Skip headers line (Chinese,Pinyin,English)
+            for (let i = 1; i < lines.length; i++) {
+                if (!lines[i].trim()) continue;
+                
+                // Advanced split to handle columns wrapped in quotes containing commas
+                const matches = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
+                const cleanRow = matches.map(val => val.replace(/^"|"$/g, '').trim());
+
+                if (cleanRow.length >= 3) {
+                    vocab.push({
+                        chinese: cleanRow[0],
+                        pinyin: cleanRow[1],
+                        english: cleanRow[2]
+                    });
+                }
+            }
+        }
+
+        function showError() {
+            document.getElementById('error-msg').style.display = 'block';
+            document.getElementById('progress').style.display = 'none';
+        }
+
+        function updateCard() {
+            const card = document.getElementById('flashcard');
+            card.classList.remove('flipped');
+            
+            setTimeout(() => {
+                document.getElementById('front-chinese').innerText = vocab[currentIndex].chinese;
+                document.getElementById('back-chinese').innerText = vocab[currentIndex].chinese;
+                document.getElementById('back-pinyin').innerText = vocab[currentIndex].pinyin;
+                document.getElementById('back-english').innerHTML = vocab[currentIndex].english;
+                document.getElementById('progress').innerText = `Thẻ ${currentIndex + 1} trên ${vocab.length}`;
+            }, 150);
+        }
+
+        function flipCard(event) {
+            if (event) event.stopPropagation();
+            document.getElementById('flashcard').classList.toggle('flipped');
+        }
+
+        function nextCard(event) {
+            if (event) event.stopPropagation();
+            if (vocab.length === 0) return;
+            currentIndex = (currentIndex + 1) % vocab.length;
+            updateCard();
+        }
+
+        function prevCard(event) {
+            if (event) event.stopPropagation();
+            if (vocab.length === 0) return;
+            currentIndex = (currentIndex - 1 + vocab.length) % vocab.length;
+            updateCard();
+        }
+    </script>
+</body>
+</html>
