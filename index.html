@@ -6,46 +6,216 @@
 
     <title>Chinese Lesson Flashcards</title>
     <style>
-        body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background-color: #f0f2f5; margin: 0; padding: 20px; box-sizing: border-box; }
-        .progress { font-size: 16px; color: #666; margin-bottom: 15px; font-weight: bold; }
-        
-        /* Premium Native Video Link Card Sizing Layout */
-        .video-link-container { width: 100%; max-width: 400px; margin-bottom: 25px; display: none; }
-        .video-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #1877f2, #1156be); color: white; text-decoration: none; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3); transition: transform 0.2s, background 0.2s; text-align: center; }
-        .video-btn:hover { background: linear-gradient(135deg, #166fe5, #0f4ca8); transform: translateY(-2px); }
-        .video-btn:active { transform: translateY(0); }
-        
-        .card-container { width: 100%; max-width: 400px; height: 280px; perspective: 1000px; cursor: pointer; margin-bottom: 25px; }
-        .card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.4s; box-shadow: 0 6px 20px rgba(0,0,0,0.1); border-radius: 15px; }
-        .card.flipped { transform: rotateY(180deg); }
-        .front, .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 25px; box-sizing: border-box; border: 2px solid #ff4b4b; }
-        .front { background-color: #ffffff; color: #333; }
-        .back { background-color: #f9f9f9; color: #333; transform: rotateY(180deg); text-align: center; overflow-y: auto; }
-        .chinese { 
-			/* Applies traditional calligraphic Kaiti font variants across different devices */
-			font-family: "Kaiti", "STKaiti", "华文楷体", "KaiTi_GB2312", "楷体", "DFKai-SB", "Noto Serif SC", serif;
-			font-size: 36px; 
-			font-weight: normal; /* Kaiti looks much better and clearer when it is not forced into bold */
+		/* Universal Aesthetic Reset */
+		body { 
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+			display: flex; 
+			flex-direction: column; 
+			align-items: center; 
+			justify-content: center; 
+			min-height: 100vh; 
+			background: radial-gradient(circle at top, #faf6f0 0%, #eae3d2 100%); /* Warm rice-paper tone background */
+			margin: 0; 
+			padding: 20px; 
+			box-sizing: border-box; 
+		}
+
+		.progress { 
+			font-size: 14px; 
+			color: #726255; 
 			margin-bottom: 15px; 
-			color: #222; 
+			font-weight: 600;
+			letter-spacing: 1px;
+			background: rgba(255, 255, 255, 0.6);
+			padding: 6px 16px;
+			border-radius: 20px;
+			box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+		}
+		
+		/* Premium Native Video Link Card Sizing Layout */
+		.video-link-container { 
+			width: 100%; 
+			max-width: 420px; 
+			margin-bottom: 25px; 
+			display: none; 
+		}
+
+		.video-btn { 
+			display: flex; 
+			align-items: center; 
+			justify-content: center; 
+			gap: 12px; 
+			width: 100%; 
+			background: linear-gradient(135deg, #1877f2, #145dbf); 
+			color: white; 
+			text-decoration: none; 
+			padding: 16px; 
+			border-radius: 14px; 
+			font-size: 16px; 
+			font-weight: bold; 
+			box-shadow: 0 4px 15px rgba(24, 119, 242, 0.25); 
+			transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+			text-align: center; 
+			box-sizing: border-box;
+		}
+		.video-btn:hover { 
+			transform: translateY(-2px); 
+			box-shadow: 0 6px 20px rgba(24, 119, 242, 0.35); 
+		}
+		.video-btn:active { 
+			transform: translateY(0); 
+		}
+
+		/* Flashcard Container Decor */
+		.card-container { 
+			width: 100%; 
+			max-width: 420px; 
+			height: 300px; 
+			perspective: 1200px; 
+			cursor: pointer; 
+			margin-bottom: 25px; 
+		}
+
+		.card { 
+			width: 100%; 
+			height: 100%; 
+			position: relative; 
+			transform-style: preserve-3d; 
+			transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
+			box-shadow: 0 10px 30px rgba(114, 98, 85, 0.15); 
+			border-radius: 20px; 
+		}
+		.card.flipped { 
+			transform: rotateY(180deg); 
+		}
+
+		/* Front & Back Faces Uniformity */
+		.front, .back { 
+			position: absolute; 
+			width: 100%; 
+			height: 100%; 
+			backface-visibility: hidden; 
+			border-radius: 20px; 
+			display: flex; 
+			flex-direction: column; 
+			align-items: center; 
+			justify-content: center; 
+			padding: 30px; 
+			box-sizing: border-box; 
+			background-color: #ffffff;
+			background-image: radial-gradient(#f3ede2 1px, transparent 1px); /* Subtle luxury geometric grid texture */
+			background-size: 20px 20px;
+		}
+		
+		.front { 
+			border: 2px solid #bd2c2c; /* Traditional Oriental Crimson Border */
+		}
+		
+		.back { 
+			transform: rotateY(180deg); 
+			text-align: center; 
+			overflow-y: auto; 
+			border: 2px solid #4a3b32; /* Deep earthy secondary color border */
+		}
+
+		/* Core Typography Polishing */
+		.chinese { 
+			font-family: "Kaiti", "STKaiti", "华文楷体", "KaiTi_GB2312", "楷体", "DFKai-SB", "Noto Serif SC", serif; 
+			font-size: 38px; 
+			font-weight: normal; 
+			margin-bottom: 15px; 
+			color: #1a1a1a; 
 			text-align: center; 
 			line-height: 1.4; 
 		}
+		
+		.pinyin { 
+			font-size: 21px; 
+			color: #8c7662; 
+			font-style: italic; 
+			margin-bottom: 15px; 
+			line-height: 1.3; 
+			font-family: Georgia, serif;
+		}
+		
+		.english { 
+			font-size: 16px; 
+			color: #2b2521; 
+			line-height: 1.6; 
+			background: #fffcf7; 
+			padding: 14px 18px; 
+			border-radius: 12px; 
+			border-left: 5px solid #bd2c2c; 
+			width: 100%; 
+			box-sizing: border-box; 
+			text-align: left; 
+			white-space: pre-line; 
+			box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+		}
 
-        .pinyin { font-size: 20px; color: #666; font-style: italic; margin-bottom: 15px; line-height: 1.3; }
-        .english { font-size: 16px; color: #333; line-height: 1.5; background: #fff1f1; padding: 12px; border-radius: 8px; border-left: 4px solid #ff4b4b; width: 100%; box-sizing: border-box; text-align: left; white-space: pre-line; }
-        
-        /* Unified Controller Grid System with Shuffle Support Included */
-        .controls { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; max-width: 400px; width: 100%; }
-        button { padding: 12px 18px; font-size: 15px; border: none; background-color: #ff4b4b; color: white; border-radius: 8px; cursor: pointer; transition: background 0.2s, transform 0.1s; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); flex: 1; min-width: 80px; }
-        button:hover { background-color: #e04343; }
-        button:active { transform: scale(0.98); }
-        .shuffle-btn { background-color: #28a745; }
-        .shuffle-btn:hover { background-color: #218838; }
-        
-        .hint { color: #bbb; font-size: 13px; margin-top: 10px; }
-        #error-msg { color: red; font-weight: bold; text-align: center; display: none; margin-bottom: 20px; }
-    </style>
+		/* Unified Controller Layout Styles */
+		.controls { 
+			display: flex; 
+			gap: 12px; 
+			flex-wrap: wrap; 
+			justify-content: center; 
+			max-width: 420px; 
+			width: 100%; 
+		}
+
+		button { 
+			padding: 14px 20px; 
+			font-size: 15px; 
+			border: none; 
+			background-color: #bd2c2c; /* Matching traditional red */
+			color: white; 
+			border-radius: 12px; 
+			cursor: pointer; 
+			transition: all 0.2s ease; 
+			font-weight: bold; 
+			box-shadow: 0 4px 10px rgba(189, 44, 44, 0.2); 
+			flex: 1; 
+			min-width: 85px; 
+		}
+		button:hover { 
+			background-color: #a12323; 
+			transform: translateY(-1px);
+			box-shadow: 0 6px 14px rgba(189, 44, 44, 0.3);
+		}
+		button:active { 
+			transform: scale(0.98); 
+		}
+
+		/* Specialized Shuffle Controller Design */
+		.shuffle-btn { 
+			background-color: #3b6b4c; /* Deep sage green */
+			box-shadow: 0 4px 10px rgba(59, 107, 76, 0.2);
+		}
+		.shuffle-btn:hover { 
+			background-color: #2e543b; 
+			box-shadow: 0 6px 14px rgba(59, 107, 76, 0.3);
+		}
+
+		.hint { 
+			color: #9c8e83; 
+			font-size: 13px; 
+			margin-top: 15px; 
+			letter-spacing: 0.5px;
+		}
+		
+		#error-msg { 
+			color: #bd2c2c; 
+			font-weight: bold; 
+			text-align: center; 
+			display: none; 
+			margin-bottom: 20px; 
+			background: #fff0f0;
+			padding: 12px 24px;
+			border-radius: 10px;
+			border: 1px solid #ffcccc;
+		}
+	</style>
+
 </head>
 <body>
 
