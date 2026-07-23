@@ -20,7 +20,17 @@
         .front, .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 25px; box-sizing: border-box; border: 2px solid #ff4b4b; }
         .front { background-color: #ffffff; color: #333; }
         .back { background-color: #f9f9f9; color: #333; transform: rotateY(180deg); text-align: center; overflow-y: auto; }
-        .chinese { font-size: 32px; font-weight: bold; margin-bottom: 15px; color: #222; text-align: center; line-height: 1.4; }
+        .chinese { 
+			/* Applies traditional calligraphic Kaiti font variants across different devices */
+			font-family: "Kaiti", "STKaiti", "华文楷体", "KaiTi_GB2312", "楷体", "DFKai-SB", "Noto Serif SC", serif;
+			font-size: 36px; 
+			font-weight: normal; /* Kaiti looks much better and clearer when it is not forced into bold */
+			margin-bottom: 15px; 
+			color: #222; 
+			text-align: center; 
+			line-height: 1.4; 
+		}
+
         .pinyin { font-size: 20px; color: #666; font-style: italic; margin-bottom: 15px; line-height: 1.3; }
         .english { font-size: 16px; color: #333; line-height: 1.5; background: #fff1f1; padding: 12px; border-radius: 8px; border-left: 4px solid #ff4b4b; width: 100%; box-sizing: border-box; text-align: left; white-space: pre-line; }
         
