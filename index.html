@@ -8,9 +8,11 @@
         body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background-color: #f0f2f5; margin: 0; padding: 20px; box-sizing: border-box; }
         .progress { font-size: 16px; color: #666; margin-bottom: 15px; font-weight: bold; }
         
-        /* Perfect sizing container for mobile-first Facebook Reels */
-        .video-container { width: 100%; max-width: 360px; margin-bottom: 20px; display: none; background: #000; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .video-container iframe { width: 100%; height: 520px; border: none; display: block; }
+        /* Premium Native Video Link Card Sizing Layout */
+        .video-link-container { width: 100%; max-width: 400px; margin-bottom: 25px; display: none; }
+        .video-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #1877f2, #1156be); color: white; text-decoration: none; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3); transition: transform 0.2s, background 0.2s; text-align: center; }
+        .video-btn:hover { background: linear-gradient(135deg, #166fe5, #0f4ca8); transform: translateY(-2px); }
+        .video-btn:active { transform: translateY(0); }
         
         .card-container { width: 100%; max-width: 400px; height: 280px; perspective: 1000px; cursor: pointer; margin-bottom: 25px; }
         .card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.4s; box-shadow: 0 6px 20px rgba(0,0,0,0.1); border-radius: 15px; }
@@ -21,10 +23,15 @@
         .chinese { font-size: 32px; font-weight: bold; margin-bottom: 15px; color: #222; text-align: center; line-height: 1.4; }
         .pinyin { font-size: 20px; color: #666; font-style: italic; margin-bottom: 15px; line-height: 1.3; }
         .english { font-size: 16px; color: #333; line-height: 1.5; background: #fff1f1; padding: 12px; border-radius: 8px; border-left: 4px solid #ff4b4b; width: 100%; box-sizing: border-box; text-align: left; white-space: pre-line; }
-        .controls { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-        button { padding: 12px 24px; font-size: 16px; border: none; background-color: #ff4b4b; color: white; border-radius: 8px; cursor: pointer; transition: background 0.2s, transform 0.1s; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        
+        /* Unified Controller Grid System with Shuffle Support Included */
+        .controls { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; max-width: 400px; width: 100%; }
+        button { padding: 12px 18px; font-size: 15px; border: none; background-color: #ff4b4b; color: white; border-radius: 8px; cursor: pointer; transition: background 0.2s, transform 0.1s; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); flex: 1; min-width: 80px; }
         button:hover { background-color: #e04343; }
         button:active { transform: scale(0.98); }
+        .shuffle-btn { background-color: #28a745; }
+        .shuffle-btn:hover { background-color: #218838; }
+        
         .hint { color: #bbb; font-size: 13px; margin-top: 10px; }
         #error-msg { color: red; font-weight: bold; text-align: center; display: none; margin-bottom: 20px; }
     </style>
@@ -33,9 +40,11 @@
 
     <div id="error-msg">Không tìm thấy bài học này! Vui lòng kiểm tra lại liên kết.</div>
     
-    <!-- EMBED VIDEO CONTAINER -->
-    <div class="video-container" id="video-box">
-        <iframe id="fb-reel-iframe" src="" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+    <!-- PREMIUM NATIVE VIDEO BUTTON CONTAINER -->
+    <div class="video-link-container" id="video-box">
+        <a id="fb-reel-link" href="#" target="_blank" class="video-btn">
+            🎬 Xem Video Gốc Trên Facebook (Tích Lũy Lượt Xem)
+        </a>
     </div>
 
     <div class="progress" id="progress">Đang tải dữ liệu...</div>
@@ -58,6 +67,8 @@
         <button onclick="prevCard(event)">⬅️ Trước</button>
         <button onclick="flipCard(event)">🔄 Lật</button>
         <button onclick="nextCard(event)">Sau ➡️</button>
+        <!-- PROACTIVE FEATURE INTEGRATION: DYNAMIC SHUFFLE CONTROLLER -->
+        <button onclick="shuffleCards(event)" class="shuffle-btn">🔀 Trộn</button>
     </div>
 
     <script>
@@ -110,7 +121,7 @@
 
                 if (cleanRow.length >= 2) {
                     if (cleanRow[0].toLowerCase() === "video_url") {
-                        setupVideo(cleanRow[1]);
+                        setupVideo(cleanRow[1]); 
                         continue;
                     }
                     if (cleanRow.length >= 3) {
@@ -126,17 +137,8 @@
 
         function setupVideo(rawUrl) {
             const videoBox = document.getElementById('video-box');
-            const iframe = document.getElementById('fb-reel-iframe');
-            
-            let workingUrl = rawUrl;
-            if (workingUrl.includes('/reel/')) {
-                workingUrl = workingUrl.replace('/reel/', '/videos/');
-            }
-            
-            const encodedUrl = encodeURIComponent(workingUrl);
-            
-            // Clean pipeline endpoint integration mapping
-            iframe.src = `https://facebook.com{encodedUrl}&show_text=false&t=0`;
+            const linkAnchor = document.getElementById('fb-reel-link');
+            linkAnchor.href = rawUrl; // Safely assigns the direct Facebook link
             videoBox.style.display = "block";
         }
 
@@ -173,6 +175,20 @@
             if (event) event.stopPropagation();
             if (vocab.length === 0) return;
             currentIndex = (currentIndex - 1 + vocab.length) % vocab.length;
+            updateCard();
+        }
+
+        /* SHUFFLE LOGIC */
+        function shuffleCards(event) {
+            if (event) event.stopPropagation();
+            if (vocab.length <= 1) return;
+            
+            // Knuth-Fisher-Yates Shuffle algorithm execution
+            for (let i = vocab.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [vocab[i], vocab[j]] = [vocab[j], vocab[i]];
+            }
+            currentIndex = 0;
             updateCard();
         }
     </script>
