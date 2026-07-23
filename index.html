@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Import professional Chinese Calligraphy fonts directly from Google Fonts -->
+	<link href="https://googleapis.com" rel="stylesheet">
+
     <title>Chinese Lesson Flashcards</title>
     <style>
         body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background-color: #f0f2f5; margin: 0; padding: 20px; box-sizing: border-box; }
@@ -21,10 +24,10 @@
         .front { background-color: #ffffff; color: #333; }
         .back { background-color: #f9f9f9; color: #333; transform: rotateY(180deg); text-align: center; overflow-y: auto; }
         .chinese { 
-			/* Applies traditional calligraphic Kaiti font variants across different devices */
-			font-family: "Kaiti", "STKaiti", "华文楷体", "KaiTi_GB2312", "楷体", "DFKai-SB", "Noto Serif SC", serif;
-			font-size: 36px; 
-			font-weight: normal; /* Kaiti looks much better and clearer when it is not forced into bold */
+			/* Uses Ma Shan Zheng or Zhi Mang Xing for deep stroke weight variations */
+			font-family: "Ma Shan Zheng", "Zhi Mang Xing", "STKaiti", "Kaiti", "Noto Serif SC", serif;
+			font-size: 42px; /* Calligraphy scripts look best when sized slightly larger */
+			font-weight: normal;
 			margin-bottom: 15px; 
 			color: #222; 
 			text-align: center; 
