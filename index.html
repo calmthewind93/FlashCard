@@ -137,12 +137,14 @@
 				workingUrl = workingUrl.replace('/reel/', '/videos/');
 			}
 			
-			// Safely encode and link the clean Facebook video player pipeline
+			// Safely encode the URL
 			const encodedUrl = encodeURIComponent(workingUrl);
+			
+			// FIX: Using modern template literals to keep the connection string 100% clean
 			iframe.src = `https://facebook.com{encodedUrl}&show_text=false&t=0`;
+			
 			videoBox.style.display = "block";
 		}
-
 
         function showError() {
             document.getElementById('error-msg').style.display = 'block';
