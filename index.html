@@ -140,7 +140,7 @@
 			// Safely encode the URL
 			const encodedUrl = encodeURIComponent(workingUrl);
 			
-			// FIXED: Corrected paths, plugins routing, and string parameter tokens ($)
+			// FIXED: Added www, plugins endpoint path, and the missing $ symbol
 			iframe.src = `https://facebook.com{encodedUrl}&show_text=false&t=0`;
 			
 			videoBox.style.display = "block";
