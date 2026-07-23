@@ -86,27 +86,27 @@
             });
 
         function parseCSV(text) {
-            const lines = text.split(/\r?\n/);
-            for (let i = 1; i < lines.length; i++) {
-                if (!lines[i].trim()) continue;
-                
-                const matches = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
-                const cleanRow = matches.map(val => val.replace(/^"|"$/g, '').trim());
+			const lines = text.split(/\r?\n/);
+			for (let i = 1; i < lines.length; i++) {
+				if (!lines[i].trim()) continue;
+				
+				const matches = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
+				const cleanRow = matches.map(val => val.replace(/^"|"$/g, '').trim());
 
-                if (cleanRow.length >= 3) {
-                    // Corrected target lookup check
-                    if (cleanRow[0].toLowerCase() === "video_url") {
-                        setupVideo(cleanRow[1]);
-                        continue; 
-                    }
-                    vocab.push({
-                        chinese: cleanRow[0],
-                        pinyin: cleanRow[1],
-                        english: cleanRow[2]
-                    });
-                }
-            }
-        }
+				if (cleanRow.length >= 3) {
+					// FIX: Check cleanRow[0] instead of cleanRow
+					if (cleanRow[0].toLowerCase() === "video_url") {
+						setupVideo(cleanRow[1]); // Pass the actual URL column
+						continue; 
+					}
+					vocab.push({
+						chinese: cleanRow[0],
+						pinyin: cleanRow[1],
+						english: cleanRow[2]
+					});
+				}
+			}
+		}
 
         function setupVideo(rawUrl) {
 			const videoBox = document.getElementById('video-box');
