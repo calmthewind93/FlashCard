@@ -21,7 +21,7 @@
 
 		@keyframes lightUpRoom {
 			0% { opacity: 0.85; }
-			38% { opacity: 0.80; } /* Slight dynamic flicker matching lamp spark */
+			38% { opacity: 0.80; } /* Slight dynamic flicker matching lantern spark */
 			42% { opacity: 0.83; }
 			100% { opacity: 0; visibility: hidden; }
 		}
@@ -40,61 +40,57 @@
 			box-sizing: border-box; 
 		}
 
-		/* DUAL SATELLITE LANTERNS GRID SYSTEM */
-		.lantern-gate {
-			display: flex;
-			justify-content: space-between;
-			align-items: flex-start;
+		/* LANTERN BANNER — spans the top of the card */
+		.lantern-banner-wrap {
 			width: 100%;
-			max-width: 440px; /* Slightly wider than cards to frame it beautifully */
+			max-width: 480px;
 			margin-bottom: 5px;
 		}
-
-		.lantern-box {
-			font-size: 65px; /* Bigger than the original single lantern */
-			display: inline-block;
-			filter: drop-shadow(0 0 0px rgba(255, 75, 75, 0)) brightness(0.3);
-			animation: turnOnLamp 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+		.lantern-banner-wrap svg {
+			width: 100%;
+			height: auto;
+			display: block;
+			overflow: visible;
 		}
 
-		/* Left Lantern Swaying Motion (starts after the light-up animation finishes) */
-		.l-lantern {
-			transform-origin: top center;
-			animation: turnOnLamp 3s cubic-bezier(0.4, 0, 0.2, 1) forwards, swayLeft 4s ease-in-out infinite alternate 3s;
+		/* Cinematic warm-up: whole banner brightens and glows as the curtain fades */
+		.lantern-glow-group {
+			animation: turnOnLampBanner 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+			transform-origin: center;
 		}
 
-		/* Right Lantern Swaying Motion (slightly offset timing for a natural feel) */
-		.r-lantern {
-			transform-origin: top center;
-			animation: turnOnLamp 3s cubic-bezier(0.4, 0, 0.2, 1) forwards, swayRight 4s ease-in-out infinite alternate 3.2s;
-		}
-
-		/* The 'Turn On Lamp' Animation Effect */
-		@keyframes turnOnLamp {
+		@keyframes turnOnLampBanner {
 			0% {
-				filter: drop-shadow(0 0 0px rgba(255, 75, 75, 0)) brightness(0.3); /* Dark/off state */
-				transform: scale(0.95);
+				filter: brightness(0.3) drop-shadow(0 0 0px rgba(255, 75, 75, 0));
 			}
 			38% {
-				filter: drop-shadow(0 0 8px rgba(255, 110, 75, 0.5)) brightness(0.8); /* Flickering awake */
+				filter: brightness(0.8) drop-shadow(0 0 10px rgba(255, 110, 75, 0.4)); /* Flickering awake */
 			}
 			42% {
-				filter: drop-shadow(0 0 2px rgba(255, 75, 75, 0.2)) brightness(0.5); /* Slight dim flicker */
+				filter: brightness(0.5) drop-shadow(0 0 3px rgba(255, 75, 75, 0.2)); /* Slight dim flicker */
 			}
 			100% {
-				filter: drop-shadow(0 0 30px #ff4b4b) drop-shadow(0 0 12px #ffb33b) brightness(1.25); /* Full warm radiant glow */
-				transform: scale(1);
+				filter: brightness(1.15) drop-shadow(0 0 18px rgba(255, 75, 75, 0.35)); /* Full warm radiant glow */
 			}
 		}
 
-		/* Gentle environmental ambient sway loops */
+		/* Gentle collective sway once lit, each lantern offset for a natural feel */
+		.sway { transform-box: fill-box; }
+		.sway1 { animation: swayLeft 4.6s ease-in-out infinite alternate 3s; }
+		.sway2 { animation: swayRight 4.2s ease-in-out infinite alternate 3.3s; }
+		.sway3 { animation: swayLeft 4.9s ease-in-out infinite alternate 3.1s; }
+		.sway4 { animation: swayRight 4.4s ease-in-out infinite alternate 3.4s; }
+		.sway5 { animation: swayLeft 4.3s ease-in-out infinite alternate 3.2s; }
+		.sway6 { animation: swayRight 4.7s ease-in-out infinite alternate 3.5s; }
+		.sway7 { animation: swayLeft 4.5s ease-in-out infinite alternate 3.6s; }
+
 		@keyframes swayLeft {
-			0% { transform: rotate(-3deg); }
-			100% { transform: rotate(3deg); }
+			0% { transform: rotate(-2deg); }
+			100% { transform: rotate(2deg); }
 		}
 		@keyframes swayRight {
-			0% { transform: rotate(3deg); }
-			100% { transform: rotate(-3deg); }
+			0% { transform: rotate(2deg); }
+			100% { transform: rotate(-2deg); }
 		}
 
 		.progress { 
@@ -151,10 +147,168 @@
 
     <div id="error-msg">Không tìm thấy bài học này! Vui lòng kiểm tra lại liên kết.</div>
 
-    <!-- TWO LARGER LANTERNS POSITIONED SYMMETRICALLY -->
-    <div class="lantern-gate">
-        <div class="lantern-box l-lantern">🏮</div>
-        <div class="lantern-box r-lantern">🏮</div>
+    <!-- STRUNG LANTERN BANNER -->
+    <div class="lantern-banner-wrap">
+        <svg viewBox="0 0 680 235" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="bodyBack" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#ff8266"/>
+                    <stop offset="55%" stop-color="#dd3d30"/>
+                    <stop offset="100%" stop-color="#a82525"/>
+                </linearGradient>
+                <linearGradient id="bodyFront" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#ff6a5a"/>
+                    <stop offset="55%" stop-color="#e8342f"/>
+                    <stop offset="100%" stop-color="#bd2c2c"/>
+                </linearGradient>
+                <radialGradient id="glowBack" cx="50%" cy="45%" r="62%">
+                    <stop offset="0%" stop-color="#ffb33b" stop-opacity="0.35"/>
+                    <stop offset="100%" stop-color="#ffb33b" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="glowFront" cx="50%" cy="45%" r="62%">
+                    <stop offset="0%" stop-color="#ffb33b" stop-opacity="0.55"/>
+                    <stop offset="100%" stop-color="#ffb33b" stop-opacity="0"/>
+                </radialGradient>
+            </defs>
+
+            <g class="lantern-glow-group">
+
+                <path d="M10 24 Q170 68 340 22 Q510 -18 670 24" fill="none" stroke="#5a4636" stroke-width="1.5"/>
+
+                <!-- BACK ROW: dimmer, smaller, tucked behind -->
+                <g opacity="0.9">
+                    <g class="sway sway1" style="transform-origin: 120px 26px;">
+                        <g transform="translate(120,26) scale(0.62)">
+                            <circle cx="60" cy="120" r="95" fill="url(#glowBack)"/>
+                            <line x1="60" y1="0" x2="60" y2="18" stroke="#4a3b32" stroke-width="2"/>
+                            <rect x="30" y="14" width="60" height="10" rx="3" fill="#3a2c22"/>
+                            <rect x="38" y="24" width="44" height="12" rx="4" fill="#c99a33"/>
+                            <ellipse cx="60" cy="120" rx="58" ry="72" fill="url(#bodyBack)"/>
+                            <path d="M2 120 Q60 95 118 120" fill="none" stroke="#7a1a1a" stroke-width="1.5" opacity="0.6"/>
+                            <path d="M2 120 Q60 145 118 120" fill="none" stroke="#7a1a1a" stroke-width="1.5" opacity="0.6"/>
+                            <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="34" fill="#e9b94a" font-weight="500">福</text>
+                            <rect x="38" y="188" width="44" height="10" rx="4" fill="#c99a33"/>
+                            <rect x="30" y="196" width="60" height="9" rx="3" fill="#3a2c22"/>
+                            <line x1="60" y1="205" x2="60" y2="222" stroke="#a67c2a" stroke-width="1.5"/>
+                            <circle cx="60" cy="230" r="6" fill="#dd3d30"/>
+                            <path d="M60 236 L54 252 M60 236 L60 254 M60 236 L66 252" stroke="#a67c2a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        </g>
+                    </g>
+
+                    <g class="sway sway3" style="transform-origin: 340px 16px;">
+                        <g transform="translate(340,16) scale(0.62)">
+                            <circle cx="60" cy="120" r="95" fill="url(#glowBack)"/>
+                            <line x1="60" y1="0" x2="60" y2="18" stroke="#4a3b32" stroke-width="2"/>
+                            <rect x="30" y="14" width="60" height="10" rx="3" fill="#3a2c22"/>
+                            <rect x="38" y="24" width="44" height="12" rx="4" fill="#c99a33"/>
+                            <ellipse cx="60" cy="120" rx="58" ry="72" fill="url(#bodyBack)"/>
+                            <path d="M2 120 Q60 95 118 120" fill="none" stroke="#7a1a1a" stroke-width="1.5" opacity="0.6"/>
+                            <path d="M2 120 Q60 145 118 120" fill="none" stroke="#7a1a1a" stroke-width="1.5" opacity="0.6"/>
+                            <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="34" fill="#e9b94a" font-weight="500">福</text>
+                            <rect x="38" y="188" width="44" height="10" rx="4" fill="#c99a33"/>
+                            <rect x="30" y="196" width="60" height="9" rx="3" fill="#3a2c22"/>
+                            <line x1="60" y1="205" x2="60" y2="222" stroke="#a67c2a" stroke-width="1.5"/>
+                            <circle cx="60" cy="230" r="6" fill="#dd3d30"/>
+                            <path d="M60 236 L54 252 M60 236 L60 254 M60 236 L66 252" stroke="#a67c2a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        </g>
+                    </g>
+
+                    <g class="sway sway5" style="transform-origin: 560px 28px;">
+                        <g transform="translate(560,28) scale(0.62)">
+                            <circle cx="60" cy="120" r="95" fill="url(#glowBack)"/>
+                            <line x1="60" y1="0" x2="60" y2="18" stroke="#4a3b32" stroke-width="2"/>
+                            <rect x="30" y="14" width="60" height="10" rx="3" fill="#3a2c22"/>
+                            <rect x="38" y="24" width="44" height="12" rx="4" fill="#c99a33"/>
+                            <ellipse cx="60" cy="120" rx="58" ry="72" fill="url(#bodyBack)"/>
+                            <path d="M2 120 Q60 95 118 120" fill="none" stroke="#7a1a1a" stroke-width="1.5" opacity="0.6"/>
+                            <path d="M2 120 Q60 145 118 120" fill="none" stroke="#7a1a1a" stroke-width="1.5" opacity="0.6"/>
+                            <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="34" fill="#e9b94a" font-weight="500">福</text>
+                            <rect x="38" y="188" width="44" height="10" rx="4" fill="#c99a33"/>
+                            <rect x="30" y="196" width="60" height="9" rx="3" fill="#3a2c22"/>
+                            <line x1="60" y1="205" x2="60" y2="222" stroke="#a67c2a" stroke-width="1.5"/>
+                            <circle cx="60" cy="230" r="6" fill="#dd3d30"/>
+                            <path d="M60 236 L54 252 M60 236 L60 254 M60 236 L66 252" stroke="#a67c2a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        </g>
+                    </g>
+                </g>
+
+                <!-- FRONT ROW: larger, brighter, hanging lower -->
+                <g>
+                    <g class="sway sway2" style="transform-origin: 45px 42px;">
+                        <g transform="translate(45,42) scale(0.85)">
+                            <circle cx="60" cy="120" r="95" fill="url(#glowFront)"/>
+                            <line x1="60" y1="0" x2="60" y2="18" stroke="#4a3b32" stroke-width="2"/>
+                            <rect x="30" y="14" width="60" height="10" rx="3" fill="#3a2c22"/>
+                            <rect x="38" y="24" width="44" height="12" rx="4" fill="#f0c245"/>
+                            <ellipse cx="60" cy="120" rx="58" ry="72" fill="url(#bodyFront)"/>
+                            <path d="M2 120 Q60 95 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
+                            <path d="M2 120 Q60 145 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
+                            <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="34" fill="#f0c245" font-weight="500">福</text>
+                            <rect x="38" y="188" width="44" height="10" rx="4" fill="#f0c245"/>
+                            <rect x="30" y="196" width="60" height="9" rx="3" fill="#3a2c22"/>
+                            <line x1="60" y1="205" x2="60" y2="222" stroke="#b98a2e" stroke-width="1.5"/>
+                            <circle cx="60" cy="230" r="6" fill="#e8342f"/>
+                            <path d="M60 236 L54 252 M60 236 L60 254 M60 236 L66 252" stroke="#b98a2e" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        </g>
+                    </g>
+
+                    <g class="sway sway4" style="transform-origin: 230px 58px;">
+                        <g transform="translate(230,58) scale(0.85)">
+                            <circle cx="60" cy="120" r="95" fill="url(#glowFront)"/>
+                            <line x1="60" y1="0" x2="60" y2="18" stroke="#4a3b32" stroke-width="2"/>
+                            <rect x="30" y="14" width="60" height="10" rx="3" fill="#3a2c22"/>
+                            <rect x="38" y="24" width="44" height="12" rx="4" fill="#f0c245"/>
+                            <ellipse cx="60" cy="120" rx="58" ry="72" fill="url(#bodyFront)"/>
+                            <path d="M2 120 Q60 95 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
+                            <path d="M2 120 Q60 145 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
+                            <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="34" fill="#f0c245" font-weight="500">福</text>
+                            <rect x="38" y="188" width="44" height="10" rx="4" fill="#f0c245"/>
+                            <rect x="30" y="196" width="60" height="9" rx="3" fill="#3a2c22"/>
+                            <line x1="60" y1="205" x2="60" y2="222" stroke="#b98a2e" stroke-width="1.5"/>
+                            <circle cx="60" cy="230" r="6" fill="#e8342f"/>
+                            <path d="M60 236 L54 252 M60 236 L60 254 M60 236 L66 252" stroke="#b98a2e" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        </g>
+                    </g>
+
+                    <g class="sway sway6" style="transform-origin: 430px 40px;">
+                        <g transform="translate(430,40) scale(0.85)">
+                            <circle cx="60" cy="120" r="95" fill="url(#glowFront)"/>
+                            <line x1="60" y1="0" x2="60" y2="18" stroke="#4a3b32" stroke-width="2"/>
+                            <rect x="30" y="14" width="60" height="10" rx="3" fill="#3a2c22"/>
+                            <rect x="38" y="24" width="44" height="12" rx="4" fill="#f0c245"/>
+                            <ellipse cx="60" cy="120" rx="58" ry="72" fill="url(#bodyFront)"/>
+                            <path d="M2 120 Q60 95 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
+                            <path d="M2 120 Q60 145 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
+                            <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="34" fill="#f0c245" font-weight="500">福</text>
+                            <rect x="38" y="188" width="44" height="10" rx="4" fill="#f0c245"/>
+                            <rect x="30" y="196" width="60" height="9" rx="3" fill="#3a2c22"/>
+                            <line x1="60" y1="205" x2="60" y2="222" stroke="#b98a2e" stroke-width="1.5"/>
+                            <circle cx="60" cy="230" r="6" fill="#e8342f"/>
+                            <path d="M60 236 L54 252 M60 236 L60 254 M60 236 L66 252" stroke="#b98a2e" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        </g>
+                    </g>
+
+                    <g class="sway sway7" style="transform-origin: 615px 58px;">
+                        <g transform="translate(615,58) scale(0.85)">
+                            <circle cx="60" cy="120" r="95" fill="url(#glowFront)"/>
+                            <line x1="60" y1="0" x2="60" y2="18" stroke="#4a3b32" stroke-width="2"/>
+                            <rect x="30" y="14" width="60" height="10" rx="3" fill="#3a2c22"/>
+                            <rect x="38" y="24" width="44" height="12" rx="4" fill="#f0c245"/>
+                            <ellipse cx="60" cy="120" rx="58" ry="72" fill="url(#bodyFront)"/>
+                            <path d="M2 120 Q60 95 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
+                            <path d="M2 120 Q60 145 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
+                            <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="34" fill="#f0c245" font-weight="500">福</text>
+                            <rect x="38" y="188" width="44" height="10" rx="4" fill="#f0c245"/>
+                            <rect x="30" y="196" width="60" height="9" rx="3" fill="#3a2c22"/>
+                            <line x1="60" y1="205" x2="60" y2="222" stroke="#b98a2e" stroke-width="1.5"/>
+                            <circle cx="60" cy="230" r="6" fill="#e8342f"/>
+                            <path d="M60 236 L54 252 M60 236 L60 254 M60 236 L66 252" stroke="#b98a2e" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        </g>
+                    </g>
+                </g>
+
+            </g>
+        </svg>
     </div>
     
     <!-- PREMIUM NATIVE VIDEO BUTTON CONTAINER -->
