@@ -86,66 +86,59 @@
             });
 
         function parseCSV(text) {
-			const lines = text.split(/\r?\n/);
-			for (let i = 1; i < lines.length; i++) {
-				if (!lines[i].trim()) continue;
-				
-				// Industry-standard quote parser to prevent URLs from splitting apart
-				let cleanRow = [];
-				let row = lines[i];
-				let inQuotes = false;
-				let currentField = '';
-				
-				for (let charIndex = 0; charIndex < row.length; charIndex++) {
-					let char = row[charIndex];
-					if (char === '"') {
-						inQuotes = !inQuotes;
-					} else if (char === ',' && !inQuotes) {
-						cleanRow.push(currentField.trim());
-						currentField = '';
-					} else {
-						currentField += char;
-					}
-				}
-				cleanRow.push(currentField.trim()); // Catch the final column
+            const lines = text.split(/\r?\n/);
+            for (let i = 1; i < lines.length; i++) {
+                if (!lines[i].trim()) continue;
+                
+                let cleanRow = [];
+                let row = lines[i];
+                let inQuotes = false;
+                let currentField = '';
+                
+                for (let charIndex = 0; charIndex < row.length; charIndex++) {
+                    let char = row[charIndex];
+                    if (char === '"') {
+                        inQuotes = !inQuotes;
+                    } else if (char === ',' && !inQuotes) {
+                        cleanRow.push(currentField.trim());
+                        currentField = '';
+                    } else {
+                        currentField += char;
+                    }
+                }
+                cleanRow.push(currentField.trim());
 
-				// Double check formatting validation
-				if (cleanRow.length >= 2) {
-					if (cleanRow[0].toLowerCase() === "video_url") {
-						setupVideo(cleanRow[1]); // Safely extract the clean URL
-						continue; 
-					}
-					
-					if (cleanRow.length >= 3) {
-						vocab.push({
-							chinese: cleanRow[0],
-							pinyin: cleanRow[1],
-							english: cleanRow[2]
-						});
-					}
-				}
-			}
-		}
+                if (cleanRow.length >= 2) {
+                    if (cleanRow[0].toLowerCase() === "video_url") {
+                        setupVideo(cleanRow[1]);
+                        continue;
+                    }
+                    if (cleanRow.length >= 3) {
+                        vocab.push({
+                            chinese: cleanRow[0],
+                            pinyin: cleanRow[1],
+                            english: cleanRow[2]
+                        });
+                    }
+                }
+            }
+        }
 
         function setupVideo(rawUrl) {
-			const videoBox = document.getElementById('video-box');
-			const iframe = document.getElementById('fb-reel-iframe');
-			
-			// Convert a standard /reel/ URL into a working /videos/ URL structure
-			let workingUrl = rawUrl;
-			if (workingUrl.includes('/reel/')) {
-				workingUrl = workingUrl.replace('/reel/', '/videos/');
-			}
-			
-			// Safely encode the URL
-			const encodedUrl = encodeURIComponent(workingUrl);
-			
-			// FIXED: Added www, plugins endpoint path, and the missing $ symbol
-			iframe.src = `https://facebook.com{encodedUrl}&show_text=false&t=0`;
-			
-			videoBox.style.display = "block";
-		}
-
+            const videoBox = document.getElementById('video-box');
+            const iframe = document.getElementById('fb-reel-iframe');
+            
+            let workingUrl = rawUrl;
+            if (workingUrl.includes('/reel/')) {
+                workingUrl = workingUrl.replace('/reel/', '/videos/');
+            }
+            
+            const encodedUrl = encodeURIComponent(workingUrl);
+            
+            // Clean pipeline endpoint integration mapping
+            iframe.src = `https://facebook.com{encodedUrl}&show_text=false&t=0`;
+            videoBox.style.display = "block";
+        }
 
         function showError() {
             document.getElementById('error-msg').style.display = 'block';
@@ -155,7 +148,6 @@
         function updateCard() {
             const card = document.getElementById('flashcard');
             card.classList.remove('flipped');
-            
             setTimeout(() => {
                 document.getElementById('front-chinese').innerText = vocab[currentIndex].chinese;
                 document.getElementById('back-chinese').innerText = vocab[currentIndex].chinese;
