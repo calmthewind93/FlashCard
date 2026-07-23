@@ -53,36 +53,52 @@
 			overflow: visible;
 		}
 
-		/* Cinematic warm-up: whole banner brightens and glows as the curtain fades */
-		.lantern-glow-group {
-			animation: turnOnLampBanner 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+		/* Each individual lantern brightens and glows on as the curtain fades */
+		.lamp {
+			transform-box: fill-box;
 			transform-origin: center;
+			animation: turnOnLamp 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 		}
 
-		@keyframes turnOnLampBanner {
+		@keyframes turnOnLamp {
 			0% {
-				filter: brightness(0.3) drop-shadow(0 0 0px rgba(255, 75, 75, 0));
+				filter: brightness(0.35) drop-shadow(0 0 0px rgba(255, 75, 75, 0));
 			}
 			38% {
-				filter: brightness(0.8) drop-shadow(0 0 10px rgba(255, 110, 75, 0.4)); /* Flickering awake */
+				filter: brightness(0.8) drop-shadow(0 0 8px rgba(255, 110, 75, 0.45)); /* Flickering awake */
 			}
 			42% {
-				filter: brightness(0.5) drop-shadow(0 0 3px rgba(255, 75, 75, 0.2)); /* Slight dim flicker */
+				filter: brightness(0.5) drop-shadow(0 0 2px rgba(255, 75, 75, 0.2)); /* Slight dim flicker */
 			}
 			100% {
-				filter: brightness(1.15) drop-shadow(0 0 18px rgba(255, 75, 75, 0.35)); /* Full warm radiant glow */
+				filter: brightness(1.2) drop-shadow(0 0 16px rgba(255, 75, 75, 0.4)); /* Full warm radiant glow */
 			}
 		}
 
-		/* Gentle collective sway once lit, each lantern offset for a natural feel */
-		.sway { transform-box: fill-box; }
-		.sway1 { animation: swayLeft 4.6s ease-in-out infinite alternate 3s; }
-		.sway2 { animation: swayRight 4.2s ease-in-out infinite alternate 3.3s; }
-		.sway3 { animation: swayLeft 4.9s ease-in-out infinite alternate 3.1s; }
-		.sway4 { animation: swayRight 4.4s ease-in-out infinite alternate 3.4s; }
-		.sway5 { animation: swayLeft 4.3s ease-in-out infinite alternate 3.2s; }
-		.sway6 { animation: swayRight 4.7s ease-in-out infinite alternate 3.5s; }
-		.sway7 { animation: swayLeft 4.5s ease-in-out infinite alternate 3.6s; }
+		/* The soft inner light behind each lantern fades in from nothing to full glow */
+		.glow-fx {
+			animation: glowIn 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+		}
+
+		@keyframes glowIn {
+			0% { opacity: 0; }
+			38% { opacity: 0.45; }
+			42% { opacity: 0.2; }
+			100% { opacity: 1; }
+		}
+
+		/* Gentle collective sway once lit, pivoting from the string attachment point */
+		.sway {
+			transform-box: fill-box;
+			transform-origin: 50% 0%;
+		}
+		.sway1 { animation: swayLeft 4.6s ease-in-out infinite alternate 3.6s; }
+		.sway2 { animation: swayRight 4.2s ease-in-out infinite alternate 3.75s; }
+		.sway3 { animation: swayLeft 4.9s ease-in-out infinite alternate 3.65s; }
+		.sway4 { animation: swayRight 4.4s ease-in-out infinite alternate 3.8s; }
+		.sway5 { animation: swayLeft 4.3s ease-in-out infinite alternate 3.7s; }
+		.sway6 { animation: swayRight 4.7s ease-in-out infinite alternate 3.85s; }
+		.sway7 { animation: swayLeft 4.5s ease-in-out infinite alternate 3.78s; }
 
 		@keyframes swayLeft {
 			0% { transform: rotate(-2deg); }
@@ -169,21 +185,32 @@
                     <stop offset="0%" stop-color="#ffb33b" stop-opacity="0.55"/>
                     <stop offset="100%" stop-color="#ffb33b" stop-opacity="0"/>
                 </radialGradient>
+                <radialGradient id="innerGlowBack" cx="50%" cy="42%" r="55%">
+                    <stop offset="0%" stop-color="#fff2c4" stop-opacity="0.85"/>
+                    <stop offset="45%" stop-color="#ffb33b" stop-opacity="0.5"/>
+                    <stop offset="100%" stop-color="#ffb33b" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="innerGlowFront" cx="50%" cy="42%" r="55%">
+                    <stop offset="0%" stop-color="#fff8dd" stop-opacity="0.95"/>
+                    <stop offset="45%" stop-color="#ffc457" stop-opacity="0.6"/>
+                    <stop offset="100%" stop-color="#ffb33b" stop-opacity="0"/>
+                </radialGradient>
             </defs>
 
-            <g class="lantern-glow-group">
+            <g>
 
                 <path d="M10 24 Q170 68 340 22 Q510 -18 670 24" fill="none" stroke="#5a4636" stroke-width="1.5"/>
 
                 <!-- BACK ROW: dimmer, smaller, tucked behind -->
                 <g opacity="0.9">
-                    <g class="sway sway1" style="transform-origin: 120px 26px;">
-                        <g transform="translate(120,26) scale(0.62)">
-                            <circle cx="60" cy="120" r="95" fill="url(#glowBack)"/>
+                    <g class="sway sway1">
+                        <g class="lamp" transform="translate(120,26) scale(0.62)">
+                            <circle class="glow-fx" cx="60" cy="120" r="95" fill="url(#glowBack)"/>
                             <line x1="60" y1="0" x2="60" y2="18" stroke="#4a3b32" stroke-width="2"/>
                             <rect x="30" y="14" width="60" height="10" rx="3" fill="#3a2c22"/>
                             <rect x="38" y="24" width="44" height="12" rx="4" fill="#c99a33"/>
                             <ellipse cx="60" cy="120" rx="58" ry="72" fill="url(#bodyBack)"/>
+                            <ellipse class="glow-fx" cx="60" cy="116" rx="42" ry="52" fill="url(#innerGlowBack)" style="mix-blend-mode:screen;"/>
                             <path d="M2 120 Q60 95 118 120" fill="none" stroke="#7a1a1a" stroke-width="1.5" opacity="0.6"/>
                             <path d="M2 120 Q60 145 118 120" fill="none" stroke="#7a1a1a" stroke-width="1.5" opacity="0.6"/>
                             <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="34" fill="#e9b94a" font-weight="500">福</text>
@@ -195,13 +222,14 @@
                         </g>
                     </g>
 
-                    <g class="sway sway3" style="transform-origin: 340px 16px;">
-                        <g transform="translate(340,16) scale(0.62)">
-                            <circle cx="60" cy="120" r="95" fill="url(#glowBack)"/>
+                    <g class="sway sway3">
+                        <g class="lamp" transform="translate(340,16) scale(0.62)">
+                            <circle class="glow-fx" cx="60" cy="120" r="95" fill="url(#glowBack)"/>
                             <line x1="60" y1="0" x2="60" y2="18" stroke="#4a3b32" stroke-width="2"/>
                             <rect x="30" y="14" width="60" height="10" rx="3" fill="#3a2c22"/>
                             <rect x="38" y="24" width="44" height="12" rx="4" fill="#c99a33"/>
                             <ellipse cx="60" cy="120" rx="58" ry="72" fill="url(#bodyBack)"/>
+                            <ellipse class="glow-fx" cx="60" cy="116" rx="42" ry="52" fill="url(#innerGlowBack)" style="mix-blend-mode:screen;"/>
                             <path d="M2 120 Q60 95 118 120" fill="none" stroke="#7a1a1a" stroke-width="1.5" opacity="0.6"/>
                             <path d="M2 120 Q60 145 118 120" fill="none" stroke="#7a1a1a" stroke-width="1.5" opacity="0.6"/>
                             <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="34" fill="#e9b94a" font-weight="500">福</text>
@@ -213,13 +241,14 @@
                         </g>
                     </g>
 
-                    <g class="sway sway5" style="transform-origin: 560px 28px;">
-                        <g transform="translate(560,28) scale(0.62)">
-                            <circle cx="60" cy="120" r="95" fill="url(#glowBack)"/>
+                    <g class="sway sway5">
+                        <g class="lamp" transform="translate(560,28) scale(0.62)">
+                            <circle class="glow-fx" cx="60" cy="120" r="95" fill="url(#glowBack)"/>
                             <line x1="60" y1="0" x2="60" y2="18" stroke="#4a3b32" stroke-width="2"/>
                             <rect x="30" y="14" width="60" height="10" rx="3" fill="#3a2c22"/>
                             <rect x="38" y="24" width="44" height="12" rx="4" fill="#c99a33"/>
                             <ellipse cx="60" cy="120" rx="58" ry="72" fill="url(#bodyBack)"/>
+                            <ellipse class="glow-fx" cx="60" cy="116" rx="42" ry="52" fill="url(#innerGlowBack)" style="mix-blend-mode:screen;"/>
                             <path d="M2 120 Q60 95 118 120" fill="none" stroke="#7a1a1a" stroke-width="1.5" opacity="0.6"/>
                             <path d="M2 120 Q60 145 118 120" fill="none" stroke="#7a1a1a" stroke-width="1.5" opacity="0.6"/>
                             <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="34" fill="#e9b94a" font-weight="500">福</text>
@@ -234,13 +263,14 @@
 
                 <!-- FRONT ROW: larger, brighter, hanging lower -->
                 <g>
-                    <g class="sway sway2" style="transform-origin: 45px 42px;">
-                        <g transform="translate(45,42) scale(0.85)">
-                            <circle cx="60" cy="120" r="95" fill="url(#glowFront)"/>
+                    <g class="sway sway2">
+                        <g class="lamp" transform="translate(45,42) scale(0.85)">
+                            <circle class="glow-fx" cx="60" cy="120" r="95" fill="url(#glowFront)"/>
                             <line x1="60" y1="0" x2="60" y2="18" stroke="#4a3b32" stroke-width="2"/>
                             <rect x="30" y="14" width="60" height="10" rx="3" fill="#3a2c22"/>
                             <rect x="38" y="24" width="44" height="12" rx="4" fill="#f0c245"/>
                             <ellipse cx="60" cy="120" rx="58" ry="72" fill="url(#bodyFront)"/>
+                            <ellipse class="glow-fx" cx="60" cy="116" rx="42" ry="52" fill="url(#innerGlowFront)" style="mix-blend-mode:screen;"/>
                             <path d="M2 120 Q60 95 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
                             <path d="M2 120 Q60 145 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
                             <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="34" fill="#f0c245" font-weight="500">福</text>
@@ -252,13 +282,14 @@
                         </g>
                     </g>
 
-                    <g class="sway sway4" style="transform-origin: 230px 58px;">
-                        <g transform="translate(230,58) scale(0.85)">
-                            <circle cx="60" cy="120" r="95" fill="url(#glowFront)"/>
+                    <g class="sway sway4">
+                        <g class="lamp" transform="translate(230,58) scale(0.85)">
+                            <circle class="glow-fx" cx="60" cy="120" r="95" fill="url(#glowFront)"/>
                             <line x1="60" y1="0" x2="60" y2="18" stroke="#4a3b32" stroke-width="2"/>
                             <rect x="30" y="14" width="60" height="10" rx="3" fill="#3a2c22"/>
                             <rect x="38" y="24" width="44" height="12" rx="4" fill="#f0c245"/>
                             <ellipse cx="60" cy="120" rx="58" ry="72" fill="url(#bodyFront)"/>
+                            <ellipse class="glow-fx" cx="60" cy="116" rx="42" ry="52" fill="url(#innerGlowFront)" style="mix-blend-mode:screen;"/>
                             <path d="M2 120 Q60 95 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
                             <path d="M2 120 Q60 145 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
                             <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="34" fill="#f0c245" font-weight="500">福</text>
@@ -270,13 +301,14 @@
                         </g>
                     </g>
 
-                    <g class="sway sway6" style="transform-origin: 430px 40px;">
-                        <g transform="translate(430,40) scale(0.85)">
-                            <circle cx="60" cy="120" r="95" fill="url(#glowFront)"/>
+                    <g class="sway sway6">
+                        <g class="lamp" transform="translate(430,40) scale(0.85)">
+                            <circle class="glow-fx" cx="60" cy="120" r="95" fill="url(#glowFront)"/>
                             <line x1="60" y1="0" x2="60" y2="18" stroke="#4a3b32" stroke-width="2"/>
                             <rect x="30" y="14" width="60" height="10" rx="3" fill="#3a2c22"/>
                             <rect x="38" y="24" width="44" height="12" rx="4" fill="#f0c245"/>
                             <ellipse cx="60" cy="120" rx="58" ry="72" fill="url(#bodyFront)"/>
+                            <ellipse class="glow-fx" cx="60" cy="116" rx="42" ry="52" fill="url(#innerGlowFront)" style="mix-blend-mode:screen;"/>
                             <path d="M2 120 Q60 95 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
                             <path d="M2 120 Q60 145 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
                             <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="34" fill="#f0c245" font-weight="500">福</text>
@@ -288,13 +320,14 @@
                         </g>
                     </g>
 
-                    <g class="sway sway7" style="transform-origin: 615px 58px;">
-                        <g transform="translate(615,58) scale(0.85)">
-                            <circle cx="60" cy="120" r="95" fill="url(#glowFront)"/>
+                    <g class="sway sway7">
+                        <g class="lamp" transform="translate(615,58) scale(0.85)">
+                            <circle class="glow-fx" cx="60" cy="120" r="95" fill="url(#glowFront)"/>
                             <line x1="60" y1="0" x2="60" y2="18" stroke="#4a3b32" stroke-width="2"/>
                             <rect x="30" y="14" width="60" height="10" rx="3" fill="#3a2c22"/>
                             <rect x="38" y="24" width="44" height="12" rx="4" fill="#f0c245"/>
                             <ellipse cx="60" cy="120" rx="58" ry="72" fill="url(#bodyFront)"/>
+                            <ellipse class="glow-fx" cx="60" cy="116" rx="42" ry="52" fill="url(#innerGlowFront)" style="mix-blend-mode:screen;"/>
                             <path d="M2 120 Q60 95 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
                             <path d="M2 120 Q60 145 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
                             <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="34" fill="#f0c245" font-weight="500">福</text>
