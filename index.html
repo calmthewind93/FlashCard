@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- Import professional Chinese Calligraphy fonts directly from Google Fonts -->
-	<link href="https://googleapis.com" rel="stylesheet">
+	<!-- Import high-compatibility professional Chinese Serif/Calligraphy fonts -->
+	<link rel="preconnect" href="https://googleapis.com">
+	<link rel="preconnect" href="https://gstatic.com" crossorigin>
+	<link href="https://googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+
 
     <title>Chinese Lesson Flashcards</title>
     <style>
@@ -24,15 +27,16 @@
         .front { background-color: #ffffff; color: #333; }
         .back { background-color: #f9f9f9; color: #333; transform: rotateY(180deg); text-align: center; overflow-y: auto; }
         .chinese { 
-			/* Uses Ma Shan Zheng or Zhi Mang Xing for deep stroke weight variations */
-			font-family: "Ma Shan Zheng", "Zhi Mang Xing", "STKaiti", "Kaiti", "Noto Serif SC", serif;
-			font-size: 42px; /* Calligraphy scripts look best when sized slightly larger */
-			font-weight: normal;
+			/* Noto Serif SC forces varied stroke weights on all laptop browsers */
+			font-family: "Noto Serif SC", "Ma Shan Zheng", "STKaiti", "Kaiti", serif;
+			font-size: 38px; 
+			font-weight: 700; /* Forcing weight here accentuates the thin vs thick brush lines */
 			margin-bottom: 15px; 
 			color: #222; 
 			text-align: center; 
 			line-height: 1.4; 
 		}
+
 
         .pinyin { font-size: 20px; color: #666; font-style: italic; margin-bottom: 15px; line-height: 1.3; }
         .english { font-size: 16px; color: #333; line-height: 1.5; background: #fff1f1; padding: 12px; border-radius: 8px; border-left: 4px solid #ff4b4b; width: 100%; box-sizing: border-box; text-align: left; white-space: pre-line; }
