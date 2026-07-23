@@ -16,13 +16,12 @@
 			background-color: #0c0a08; /* Deep dark night tone */
 			z-index: 9999;
 			pointer-events: none; /* Allows clicks to pass through once faded */
-			animation: lightUpRoom 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+			opacity: 1; /* Fully opaque while the lanterns light up */
+			animation: lightUpRoom 1.3s ease-out 3s forwards; /* Starts only after the lanterns finish lighting (3s) */
 		}
 
 		@keyframes lightUpRoom {
-			0% { opacity: 0.85; }
-			38% { opacity: 0.80; } /* Slight dynamic flicker matching lantern spark */
-			42% { opacity: 0.83; }
+			0% { opacity: 1; }
 			100% { opacity: 0; visibility: hidden; }
 		}
 
@@ -45,6 +44,8 @@
 			width: 100%;
 			max-width: 480px;
 			margin-bottom: 5px;
+			position: relative;
+			z-index: 10000; /* Above the ambient-curtain so it glows visibly before the room reveals */
 		}
 		.lantern-banner-wrap svg {
 			width: 100%;
@@ -87,18 +88,14 @@
 			100% { opacity: 1; }
 		}
 
-		/* Gentle collective sway once lit, pivoting from the string attachment point */
-		.sway {
-			transform-box: fill-box;
-			transform-origin: 50% 0%;
-		}
-		.sway1 { animation: swayLeft 4.6s ease-in-out infinite alternate 3.6s; }
-		.sway2 { animation: swayRight 4.2s ease-in-out infinite alternate 3.75s; }
-		.sway3 { animation: swayLeft 4.9s ease-in-out infinite alternate 3.65s; }
-		.sway4 { animation: swayRight 4.4s ease-in-out infinite alternate 3.8s; }
-		.sway5 { animation: swayLeft 4.3s ease-in-out infinite alternate 3.7s; }
-		.sway6 { animation: swayRight 4.7s ease-in-out infinite alternate 3.85s; }
-		.sway7 { animation: swayLeft 4.5s ease-in-out infinite alternate 3.78s; }
+		/* Gentle collective sway, pivoting from the string attachment point (fixed pixel origin — cheap & stable, no per-frame bbox recalculation) */
+		.sway1 { animation: swayLeft 4.6s ease-in-out infinite alternate 4.4s; }
+		.sway2 { animation: swayRight 4.2s ease-in-out infinite alternate 4.55s; }
+		.sway3 { animation: swayLeft 4.9s ease-in-out infinite alternate 4.45s; }
+		.sway4 { animation: swayRight 4.4s ease-in-out infinite alternate 4.6s; }
+		.sway5 { animation: swayLeft 4.3s ease-in-out infinite alternate 4.5s; }
+		.sway6 { animation: swayRight 4.7s ease-in-out infinite alternate 4.65s; }
+		.sway7 { animation: swayLeft 4.5s ease-in-out infinite alternate 4.58s; }
 
 		@keyframes swayLeft {
 			0% { transform: rotate(-2deg); }
@@ -203,7 +200,7 @@
 
                 <!-- BACK ROW: dimmer, smaller, tucked behind -->
                 <g opacity="0.9">
-                    <g class="sway sway1">
+                    <g class="sway sway1" style="transform-origin: 120px 26px;">
                         <g class="lamp" transform="translate(120,26) scale(0.62)">
                             <circle class="glow-fx" cx="60" cy="120" r="95" fill="url(#glowBack)"/>
                             <line x1="60" y1="0" x2="60" y2="18" stroke="#4a3b32" stroke-width="2"/>
@@ -222,7 +219,7 @@
                         </g>
                     </g>
 
-                    <g class="sway sway3">
+                    <g class="sway sway3" style="transform-origin: 340px 16px;">
                         <g class="lamp" transform="translate(340,16) scale(0.62)">
                             <circle class="glow-fx" cx="60" cy="120" r="95" fill="url(#glowBack)"/>
                             <line x1="60" y1="0" x2="60" y2="18" stroke="#4a3b32" stroke-width="2"/>
@@ -241,7 +238,7 @@
                         </g>
                     </g>
 
-                    <g class="sway sway5">
+                    <g class="sway sway5" style="transform-origin: 560px 28px;">
                         <g class="lamp" transform="translate(560,28) scale(0.62)">
                             <circle class="glow-fx" cx="60" cy="120" r="95" fill="url(#glowBack)"/>
                             <line x1="60" y1="0" x2="60" y2="18" stroke="#4a3b32" stroke-width="2"/>
@@ -263,7 +260,7 @@
 
                 <!-- FRONT ROW: larger, brighter, hanging lower -->
                 <g>
-                    <g class="sway sway2">
+                    <g class="sway sway2" style="transform-origin: 45px 42px;">
                         <g class="lamp" transform="translate(45,42) scale(0.85)">
                             <circle class="glow-fx" cx="60" cy="120" r="95" fill="url(#glowFront)"/>
                             <line x1="60" y1="0" x2="60" y2="18" stroke="#4a3b32" stroke-width="2"/>
@@ -282,7 +279,7 @@
                         </g>
                     </g>
 
-                    <g class="sway sway4">
+                    <g class="sway sway4" style="transform-origin: 230px 58px;">
                         <g class="lamp" transform="translate(230,58) scale(0.85)">
                             <circle class="glow-fx" cx="60" cy="120" r="95" fill="url(#glowFront)"/>
                             <line x1="60" y1="0" x2="60" y2="18" stroke="#4a3b32" stroke-width="2"/>
@@ -301,7 +298,7 @@
                         </g>
                     </g>
 
-                    <g class="sway sway6">
+                    <g class="sway sway6" style="transform-origin: 430px 40px;">
                         <g class="lamp" transform="translate(430,40) scale(0.85)">
                             <circle class="glow-fx" cx="60" cy="120" r="95" fill="url(#glowFront)"/>
                             <line x1="60" y1="0" x2="60" y2="18" stroke="#4a3b32" stroke-width="2"/>
@@ -320,7 +317,7 @@
                         </g>
                     </g>
 
-                    <g class="sway sway7">
+                    <g class="sway sway7" style="transform-origin: 615px 58px;">
                         <g class="lamp" transform="translate(615,58) scale(0.85)">
                             <circle class="glow-fx" cx="60" cy="120" r="95" fill="url(#glowFront)"/>
                             <line x1="60" y1="0" x2="60" y2="18" stroke="#4a3b32" stroke-width="2"/>
