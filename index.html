@@ -76,7 +76,10 @@
         let currentIndex = 0;
 
         const urlParams = new URLSearchParams(window.location.search);
-        const lessonName = urlParams.get('lesson') || '001_read_book';
+        const lessonName = urlParams.get('lesson');
+		if (!lessonName) {
+			showError(); // Shows the "Không tìm thấy bài học này" message instantly
+		}
 
         fetch(`lessons/${lessonName}.csv`)
             .then(response => {
