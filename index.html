@@ -90,20 +90,39 @@
 			for (let i = 1; i < lines.length; i++) {
 				if (!lines[i].trim()) continue;
 				
-				const matches = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
-				const cleanRow = matches.map(val => val.replace(/^"|"$/g, '').trim());
+				// Industry-standard quote parser to prevent URLs from splitting apart
+				let cleanRow = [];
+				let row = lines[i];
+				let inQuotes = false;
+				let currentField = '';
+				
+				for (let charIndex = 0; charIndex < row.length; charIndex++) {
+					let char = row[charIndex];
+					if (char === '"') {
+						inQuotes = !inQuotes;
+					} else if (char === ',' && !inQuotes) {
+						cleanRow.push(currentField.trim());
+						currentField = '';
+					} else {
+						currentField += char;
+					}
+				}
+				cleanRow.push(currentField.trim()); // Catch the final column
 
-				if (cleanRow.length >= 3) {
-					// FIX: Check cleanRow[0] instead of cleanRow
+				// Double check formatting validation
+				if (cleanRow.length >= 2) {
 					if (cleanRow[0].toLowerCase() === "video_url") {
-						setupVideo(cleanRow[1]); // Pass the actual URL column
+						setupVideo(cleanRow[1]); // Safely extract the clean URL
 						continue; 
 					}
-					vocab.push({
-						chinese: cleanRow[0],
-						pinyin: cleanRow[1],
-						english: cleanRow[2]
-					});
+					
+					if (cleanRow.length >= 3) {
+						vocab.push({
+							chinese: cleanRow[0],
+							pinyin: cleanRow[1],
+							english: cleanRow[2]
+						});
+					}
 				}
 			}
 		}
