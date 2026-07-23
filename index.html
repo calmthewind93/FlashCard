@@ -7,6 +7,11 @@
     <style>
         body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background-color: #f0f2f5; margin: 0; padding: 20px; box-sizing: border-box; }
         .progress { font-size: 16px; color: #666; margin-bottom: 15px; font-weight: bold; }
+        
+        /* Perfect sizing container for mobile-first Facebook Reels */
+        .video-container { width: 100%; max-width: 360px; margin-bottom: 20px; display: none; background: #000; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .video-container iframe { width: 100%; height: 520px; border: none; display: block; }
+        
         .card-container { width: 100%; max-width: 400px; height: 280px; perspective: 1000px; cursor: pointer; margin-bottom: 25px; }
         .card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.4s; box-shadow: 0 6px 20px rgba(0,0,0,0.1); border-radius: 15px; }
         .card.flipped { transform: rotateY(180deg); }
@@ -27,6 +32,12 @@
 <body>
 
     <div id="error-msg">Không tìm thấy bài học này! Vui lòng kiểm tra lại liên kết.</div>
+    
+    <!-- EMBED VIDEO CONTAINER -->
+    <div class="video-container" id="video-box">
+        <iframe id="fb-reel-iframe" src="" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+    </div>
+
     <div class="progress" id="progress">Đang tải dữ liệu...</div>
     
     <div class="card-container" onclick="flipCard()">
@@ -53,11 +64,9 @@
         let vocab = [];
         let currentIndex = 0;
 
-        // 1. Get the lesson parameter from the browser URL (e.g. ?lesson=001_read_book)
         const urlParams = new URLSearchParams(window.location.search);
         const lessonName = urlParams.get('lesson') || '001_read_book';
 
-        // 2. Fetch the CSV file directly from your repository folder
         fetch(`lessons/${lessonName}.csv`)
             .then(response => {
                 if (!response.ok) throw new Error('File not found');
@@ -76,18 +85,20 @@
                 showError();
             });
 
-        // 3. Simple CSV Parser function to read lines properly
         function parseCSV(text) {
             const lines = text.split(/\r?\n/);
-            // Skip headers line (Chinese,Pinyin,English)
             for (let i = 1; i < lines.length; i++) {
                 if (!lines[i].trim()) continue;
                 
-                // Advanced split to handle columns wrapped in quotes containing commas
                 const matches = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
                 const cleanRow = matches.map(val => val.replace(/^"|"$/g, '').trim());
 
                 if (cleanRow.length >= 3) {
+                    // Corrected target lookup check
+                    if (cleanRow[0].toLowerCase() === "video_url") {
+                        setupVideo(cleanRow[1]);
+                        continue; 
+                    }
                     vocab.push({
                         chinese: cleanRow[0],
                         pinyin: cleanRow[1],
@@ -95,6 +106,16 @@
                     });
                 }
             }
+        }
+
+        function setupVideo(rawUrl) {
+            const videoBox = document.getElementById('video-box');
+            const iframe = document.getElementById('fb-reel-iframe');
+            
+            // This safely links the clean Facebook video player pipeline
+            const encodedUrl = encodeURIComponent(rawUrl);
+            iframe.src = `https://facebook.com{encodedUrl}&show_text=false&t=0`;
+            videoBox.style.display = "block";
         }
 
         function showError() {
