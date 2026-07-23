@@ -6,6 +6,26 @@
 
     <title>Chinese Lesson Flashcards</title>
     <style>
+		/* Ambient Screen Light Dimming Controller */
+		.ambient-curtain {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
+			background-color: #0c0a08; /* Deep dark night tone */
+			z-index: 9999;
+			pointer-events: none; /* Allows clicks to pass through once faded */
+			animation: lightUpRoom 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+		}
+
+		@keyframes lightUpRoom {
+			0% { opacity: 0.85; }
+			38% { opacity: 0.80; } /* Slight dynamic flicker matching lamp spark */
+			42% { opacity: 0.83; }
+			100% { opacity: 0; visibility: hidden; }
+		}
+
 		/* Universal Aesthetic Reset */
 		body { 
 			font-family: Arial; 
@@ -20,31 +40,61 @@
 			box-sizing: border-box; 
 		}
 
-		/* LANTERN CONTAINER & GLOW EFFECT */
-		.lantern-box {
-			font-size: 50px; /* Makes the lantern emoji large and beautiful */
+		/* DUAL SATELLITE LANTERNS GRID SYSTEM */
+		.lantern-gate {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-start;
+			width: 100%;
+			max-width: 440px; /* Slightly wider than cards to frame it beautifully */
 			margin-bottom: 5px;
+		}
+
+		.lantern-box {
+			font-size: 65px; /* Bigger than the original single lantern */
 			display: inline-block;
-			filter: drop-shadow(0 0 0px rgba(255, 75, 75, 0)); /* Starts completely dark/unlit */
-			animation: turnOnLamp 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; /* Runs once on page load */
+			filter: drop-shadow(0 0 0px rgba(255, 75, 75, 0)) brightness(0.3);
+			animation: turnOnLamp 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+		}
+
+		/* Left Lantern Swaying Motion (starts after the light-up animation finishes) */
+		.l-lantern {
+			transform-origin: top center;
+			animation: turnOnLamp 3s cubic-bezier(0.4, 0, 0.2, 1) forwards, swayLeft 4s ease-in-out infinite alternate 3s;
+		}
+
+		/* Right Lantern Swaying Motion (slightly offset timing for a natural feel) */
+		.r-lantern {
+			transform-origin: top center;
+			animation: turnOnLamp 3s cubic-bezier(0.4, 0, 0.2, 1) forwards, swayRight 4s ease-in-out infinite alternate 3.2s;
 		}
 
 		/* The 'Turn On Lamp' Animation Effect */
 		@keyframes turnOnLamp {
 			0% {
-				filter: drop-shadow(0 0 0px rgba(255, 75, 75, 0)) brightness(0.4); /* Dark/off state */
+				filter: drop-shadow(0 0 0px rgba(255, 75, 75, 0)) brightness(0.3); /* Dark/off state */
 				transform: scale(0.95);
 			}
-			30% {
-				filter: drop-shadow(0 0 5px rgba(255, 110, 75, 0.4)) brightness(0.7); /* Flickering awake */
+			38% {
+				filter: drop-shadow(0 0 8px rgba(255, 110, 75, 0.5)) brightness(0.8); /* Flickering awake */
 			}
-			40% {
-				filter: drop-shadow(0 0 2px rgba(255, 75, 75, 0.2)) brightness(0.6); /* Slight dim flicker */
+			42% {
+				filter: drop-shadow(0 0 2px rgba(255, 75, 75, 0.2)) brightness(0.5); /* Slight dim flicker */
 			}
 			100% {
-				filter: drop-shadow(0 0 25px #ff4b4b) drop-shadow(0 0 10px #ffb33b) brightness(1.2); /* Full warm radiant glow */
+				filter: drop-shadow(0 0 30px #ff4b4b) drop-shadow(0 0 12px #ffb33b) brightness(1.25); /* Full warm radiant glow */
 				transform: scale(1);
 			}
+		}
+
+		/* Gentle environmental ambient sway loops */
+		@keyframes swayLeft {
+			0% { transform: rotate(-3deg); }
+			100% { transform: rotate(3deg); }
+		}
+		@keyframes swayRight {
+			0% { transform: rotate(3deg); }
+			100% { transform: rotate(-3deg); }
 		}
 
 		.progress { 
@@ -96,10 +146,16 @@
 </head>
 <body>
 
+    <!-- THE SCREEN DIMMING BLACKOUT CURTAIN -->
+    <div class="ambient-curtain"></div>
+
     <div id="error-msg">Không tìm thấy bài học này! Vui lòng kiểm tra lại liên kết.</div>
-	
-	<!-- ADD THE LANTERN ELEMENT HERE -->
-    <div class="lantern-box">🏮</div>
+
+    <!-- TWO LARGER LANTERNS POSITIONED SYMMETRICALLY -->
+    <div class="lantern-gate">
+        <div class="lantern-box l-lantern">🏮</div>
+        <div class="lantern-box r-lantern">🏮</div>
+    </div>
     
     <!-- PREMIUM NATIVE VIDEO BUTTON CONTAINER -->
     <div class="video-link-container" id="video-box">
