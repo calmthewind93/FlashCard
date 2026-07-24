@@ -43,7 +43,7 @@
 		.lantern-banner-wrap {
 			width: 100%;
 			max-width: 480px;
-			margin-bottom: 5px;
+			margin-bottom: 48px;
 			position: relative;
 			z-index: 10000; /* Above the ambient-curtain so it glows visibly before the room reveals */
 		}
@@ -108,7 +108,7 @@
 
 		.progress { 
 			position: absolute;
-			top: -14px;
+			top: -34px;
 			left: 12px;
 			font-size: 12px; 
 			color: #726255; 
@@ -123,7 +123,7 @@
 		}
 		
 		/* Premium Native Video Link Card Sizing Layout */ 
-		.video-link-container { position: absolute; top: -14px; right: 12px; z-index: 5; display: none; } 
+		.video-link-container { position: absolute; top: -34px; right: 12px; z-index: 5; display: none; } 
 		.video-btn { display: flex; align-items: center; gap: 5px; background: rgba(255, 255, 255, 0.92); text-decoration: none; padding: 5px 10px; border-radius: 999px; font-size: 13px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.2s ease; } 
 		.video-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.12); } 
 		.video-btn:active { transform: translateY(0); }
@@ -145,7 +145,7 @@
 		
 		/* Unified Controller Layout Styles */ 
 		.controls { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; max-width: 420px; width: 100%; } 
-		button { padding: 14px 20px; font-size: 15px; border: none; background-color: #bd2c2c; /* Matching traditional red */ color: white; border-radius: 12px; cursor: pointer; transition: all 0.2s ease; font-weight: bold; box-shadow: 0 4px 10px rgba(189, 44, 44, 0.2); flex: 1; min-width: 85px; } 
+		button { padding: 14px 20px; font-size: 22px; border: none; background-color: #bd2c2c; /* Matching traditional red */ color: white; border-radius: 12px; cursor: pointer; transition: all 0.2s ease; font-weight: bold; box-shadow: 0 4px 10px rgba(189, 44, 44, 0.2); flex: 1; min-width: 85px; } 
 		button:hover { background-color: #a12323; transform: translateY(-1px); box-shadow: 0 6px 14px rgba(189, 44, 44, 0.3); } 
 		button:active { transform: scale(0.98); } 
 		
@@ -187,15 +187,15 @@
                     <stop offset="100%" stop-color="#ffb33b" stop-opacity="0"/>
                 </radialGradient>
                 <radialGradient id="innerGlowBack" cx="50%" cy="42%" r="55%">
-                    <stop offset="0%" stop-color="#fff2c4" stop-opacity="0.85"/>
-                    <stop offset="45%" stop-color="#ffb33b" stop-opacity="0.5"/>
-                    <stop offset="100%" stop-color="#ffb33b" stop-opacity="0"/>
-                </radialGradient>
-                <radialGradient id="innerGlowFront" cx="50%" cy="42%" r="55%">
-                    <stop offset="0%" stop-color="#fff8dd" stop-opacity="0.95"/>
-                    <stop offset="45%" stop-color="#ffc457" stop-opacity="0.6"/>
-                    <stop offset="100%" stop-color="#ffb33b" stop-opacity="0"/>
-                </radialGradient>
+					<stop offset="0%" stop-color="#fff2c4" stop-opacity="0.95"/>
+					<stop offset="45%" stop-color="#ffb33b" stop-opacity="0.7"/>
+					<stop offset="100%" stop-color="#ffb33b" stop-opacity="0"/>
+				</radialGradient>
+				<radialGradient id="innerGlowFront" cx="50%" cy="42%" r="55%">
+					<stop offset="0%" stop-color="#fff8dd" stop-opacity="1"/>
+					<stop offset="45%" stop-color="#ffc457" stop-opacity="0.8"/>
+					<stop offset="100%" stop-color="#ffb33b" stop-opacity="0"/>
+				</radialGradient>
             </defs>
 
             <g>
@@ -211,7 +211,7 @@
                             <rect x="30" y="14" width="60" height="10" rx="3" fill="#3a2c22"/>
                             <rect x="38" y="24" width="44" height="12" rx="4" fill="#c99a33"/>
                             <ellipse cx="60" cy="120" rx="58" ry="72" fill="url(#bodyBack)"/>
-                            <ellipse class="glow-fx" cx="60" cy="116" rx="42" ry="52" fill="url(#innerGlowBack)" style="mix-blend-mode:screen;"/>
+                            <ellipse class="glow-fx" cx="60" cy="116" rx="42" ry="52" fill="url(#innerGlowBack)"/>
                             <path d="M2 120 Q60 95 118 120" fill="none" stroke="#7a1a1a" stroke-width="1.5" opacity="0.6"/>
                             <path d="M2 120 Q60 145 118 120" fill="none" stroke="#7a1a1a" stroke-width="1.5" opacity="0.6"/>
                             <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="34" fill="#e9b94a" font-weight="500">福</text>
@@ -230,7 +230,7 @@
                             <rect x="30" y="14" width="60" height="10" rx="3" fill="#3a2c22"/>
                             <rect x="38" y="24" width="44" height="12" rx="4" fill="#c99a33"/>
                             <ellipse cx="60" cy="120" rx="58" ry="72" fill="url(#bodyBack)"/>
-                            <ellipse class="glow-fx" cx="60" cy="116" rx="42" ry="52" fill="url(#innerGlowBack)" style="mix-blend-mode:screen;"/>
+                            <ellipse class="glow-fx" cx="60" cy="116" rx="42" ry="52" fill="url(#innerGlowBack)"/>
                             <path d="M2 120 Q60 95 118 120" fill="none" stroke="#7a1a1a" stroke-width="1.5" opacity="0.6"/>
                             <path d="M2 120 Q60 145 118 120" fill="none" stroke="#7a1a1a" stroke-width="1.5" opacity="0.6"/>
                             <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="34" fill="#e9b94a" font-weight="500">福</text>
@@ -249,7 +249,7 @@
                             <rect x="30" y="14" width="60" height="10" rx="3" fill="#3a2c22"/>
                             <rect x="38" y="24" width="44" height="12" rx="4" fill="#c99a33"/>
                             <ellipse cx="60" cy="120" rx="58" ry="72" fill="url(#bodyBack)"/>
-                            <ellipse class="glow-fx" cx="60" cy="116" rx="42" ry="52" fill="url(#innerGlowBack)" style="mix-blend-mode:screen;"/>
+                            <ellipse class="glow-fx" cx="60" cy="116" rx="42" ry="52" fill="url(#innerGlowBack)"/>
                             <path d="M2 120 Q60 95 118 120" fill="none" stroke="#7a1a1a" stroke-width="1.5" opacity="0.6"/>
                             <path d="M2 120 Q60 145 118 120" fill="none" stroke="#7a1a1a" stroke-width="1.5" opacity="0.6"/>
                             <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="34" fill="#e9b94a" font-weight="500">福</text>
@@ -271,7 +271,7 @@
                             <rect x="30" y="14" width="60" height="10" rx="3" fill="#3a2c22"/>
                             <rect x="38" y="24" width="44" height="12" rx="4" fill="#f0c245"/>
                             <ellipse cx="60" cy="120" rx="58" ry="72" fill="url(#bodyFront)"/>
-                            <ellipse class="glow-fx" cx="60" cy="116" rx="42" ry="52" fill="url(#innerGlowFront)" style="mix-blend-mode:screen;"/>
+                            <ellipse class="glow-fx" cx="60" cy="116" rx="42" ry="52" fill="url(#innerGlowFront)"/>
                             <path d="M2 120 Q60 95 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
                             <path d="M2 120 Q60 145 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
                             <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="34" fill="#f0c245" font-weight="500">福</text>
@@ -290,7 +290,7 @@
                             <rect x="30" y="14" width="60" height="10" rx="3" fill="#3a2c22"/>
                             <rect x="38" y="24" width="44" height="12" rx="4" fill="#f0c245"/>
                             <ellipse cx="60" cy="120" rx="58" ry="72" fill="url(#bodyFront)"/>
-                            <ellipse class="glow-fx" cx="60" cy="116" rx="42" ry="52" fill="url(#innerGlowFront)" style="mix-blend-mode:screen;"/>
+                            <ellipse class="glow-fx" cx="60" cy="116" rx="42" ry="52" fill="url(#innerGlowFront)"/>
                             <path d="M2 120 Q60 95 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
                             <path d="M2 120 Q60 145 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
                             <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="34" fill="#f0c245" font-weight="500">福</text>
@@ -309,7 +309,7 @@
                             <rect x="30" y="14" width="60" height="10" rx="3" fill="#3a2c22"/>
                             <rect x="38" y="24" width="44" height="12" rx="4" fill="#f0c245"/>
                             <ellipse cx="60" cy="120" rx="58" ry="72" fill="url(#bodyFront)"/>
-                            <ellipse class="glow-fx" cx="60" cy="116" rx="42" ry="52" fill="url(#innerGlowFront)" style="mix-blend-mode:screen;"/>
+                            <ellipse class="glow-fx" cx="60" cy="116" rx="42" ry="52" fill="url(#innerGlowFront)"/>
                             <path d="M2 120 Q60 95 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
                             <path d="M2 120 Q60 145 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
                             <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="34" fill="#f0c245" font-weight="500">福</text>
@@ -328,7 +328,7 @@
                             <rect x="30" y="14" width="60" height="10" rx="3" fill="#3a2c22"/>
                             <rect x="38" y="24" width="44" height="12" rx="4" fill="#f0c245"/>
                             <ellipse cx="60" cy="120" rx="58" ry="72" fill="url(#bodyFront)"/>
-                            <ellipse class="glow-fx" cx="60" cy="116" rx="42" ry="52" fill="url(#innerGlowFront)" style="mix-blend-mode:screen;"/>
+                            <ellipse class="glow-fx" cx="60" cy="116" rx="42" ry="52" fill="url(#innerGlowFront)"/>
                             <path d="M2 120 Q60 95 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
                             <path d="M2 120 Q60 145 118 120" fill="none" stroke="#8c1f1f" stroke-width="1.5" opacity="0.6"/>
                             <text x="60" y="128" text-anchor="middle" font-family="serif" font-size="34" fill="#f0c245" font-weight="500">福</text>
@@ -362,7 +362,7 @@
         <div class="card" id="flashcard">
             <div class="front">
                 <div class="chinese" id="front-chinese">...</div>
-                <div class="hint">(Nhấp để lật mặt sau)</div>
+                <div class="hint">(See answer)</div>
             </div>
             <div class="back">
                 <div class="chinese" id="back-chinese">...</div>
@@ -373,11 +373,11 @@
     </div>
 
     <div class="controls">
-        <button onclick="prevCard(event)">⬅️ Trước</button>
-        <button onclick="flipCard(event)">🔄 Lật</button>
-        <button onclick="nextCard(event)">Sau ➡️</button>
+        <button onclick="prevCard(event)" title="Trước" aria-label="Trước">⬅️</button>
+        <button onclick="flipCard(event)" title="Lật" aria-label="Lật">🔄</button>
+        <button onclick="nextCard(event)" title="Sau" aria-label="Sau">➡️</button>
         <!-- PROACTIVE FEATURE INTEGRATION: DYNAMIC SHUFFLE CONTROLLER -->
-        <button onclick="shuffleCards(event)" class="shuffle-btn">🔀 Trộn</button>
+        <button onclick="shuffleCards(event)" class="shuffle-btn" title="Trộn" aria-label="Trộn">🔀</button>
     </div>
 
     <script>
@@ -467,7 +467,7 @@
                 document.getElementById('back-chinese').innerText = vocab[currentIndex].chinese;
                 document.getElementById('back-pinyin').innerText = vocab[currentIndex].pinyin;
                 document.getElementById('back-english').innerHTML = vocab[currentIndex].english;
-                document.getElementById('progress').innerText = `Thẻ ${currentIndex + 1} trên ${vocab.length}`;
+                document.getElementById('progress').innerText = `${currentIndex + 1} / ${vocab.length}`;
             }, 150);
         }
 
