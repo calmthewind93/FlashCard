@@ -162,6 +162,7 @@
 		.shuffle-btn { background-color: #3b6b4c; /* Deep sage green */ box-shadow: 0 4px 10px rgba(59, 107, 76, 0.2); } 
 		.shuffle-btn:hover { background-color: #2e543b; box-shadow: 0 6px 14px rgba(59, 107, 76, 0.3); } 
 		.hint { color: #9c8e83; font-size: 13px; margin-top: 15px; letter-spacing: 0.5px; } 
+		.visit-count { color: #9c8e83; font-size: 13px; letter-spacing: 0.5px; margin-bottom: 15px; text-align: center; }
 		#error-msg { color: #bd2c2c; font-weight: bold; text-align: center; display: none; margin-bottom: 20px; background: #fff0f0; padding: 12px 24px; border-radius: 10px; border: 1px solid #ffcccc; } 
 		.error-msg-vi { font-size: 11px; font-weight: 600; color: #a12323; margin-top: 4px; }
 	</style>
@@ -385,6 +386,8 @@
             </div>
         </div>
     </div>
+	
+	<div class="visit-count" id="visit-count"></div>
 
     <div class="controls">
         <button onclick="prevCard(event)" title="Front" aria-label="Front">
@@ -421,6 +424,7 @@
                 parseCSV(data);
                 if (vocab.length > 0) {
                     updateCard();
+                    trackLessonView(lessonName);
                 } else {
                     showError();
                 }
@@ -480,6 +484,20 @@
         function showError() {
             document.getElementById('error-msg').style.display = 'block';
             document.getElementById('progress').style.display = 'none';
+        }
+		
+		/* Pings a free counter API once per page load, then displays the updated count on the page.
+           If the request fails (offline, blocked, etc.) it fails silently and the badge just stays empty. */
+        function trackLessonView(lesson) {
+            fetch(`https://api.counterapi.dev/v1/calmthewind93-flashcard/${encodeURIComponent(lesson)}/up`)
+                .then(res => res.json())
+                .then(data => {
+                    const el = document.getElementById('visit-count');
+                    if (el && typeof data.value === 'number') {
+                        el.innerText = `👁 ${data.value} lượt truy cập bài học này`;
+                    }
+                })
+                .catch(() => {});
         }
 
         function updateCard() {
