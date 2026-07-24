@@ -129,7 +129,7 @@
 		.video-btn:active { transform: translateY(0); }
 		
 		/* Flashcard Container Decor */ 
-		.card-container { position: relative; width: 100%; max-width: 420px; height: 300px; perspective: 1200px; cursor: pointer; margin-bottom: 25px; }
+		.card-container { position: relative; width: 100%; max-width: 420px; height: 300px; perspective: 1200px; cursor: pointer; margin-bottom: 25px; transition: height 0.3s ease; }
 		.card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 10px 30px rgba(114, 98, 85, 0.15); border-radius: 20px; } 
 		.card.flipped { transform: rotateY(180deg); } 
 		
@@ -484,8 +484,20 @@
                 document.getElementById('back-pinyin').innerText = vocab[currentIndex].pinyin;
                 document.getElementById('back-english').innerHTML = vocab[currentIndex].english;
                 document.getElementById('back-vietnamese').innerHTML = vocab[currentIndex].vietnamese;
-                document.getElementById('progress').innerText = `${currentIndex + 1} / ${vocab.length}`;
+                document.getElementById('progress').innerText = `${currentIndex + 1}/${vocab.length}`;
+                adjustCardHeight();
             }, 150);
+        }
+
+        /* Resizes the card so front/back content fits without scrolling, within sane limits */
+        function adjustCardHeight() {
+            const container = document.querySelector('.card-container');
+            const front = document.querySelector('.front');
+            const back = document.querySelector('.back');
+            const minHeight = 300;
+            const maxHeight = 620; // beyond this, .back's own overflow-y:auto kicks in as a fallback
+            const needed = Math.max(front.scrollHeight, back.scrollHeight, minHeight);
+            container.style.height = Math.min(needed, maxHeight) + 'px';
         }
 
         function flipCard(event) {
