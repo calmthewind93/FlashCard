@@ -489,7 +489,8 @@
             }, 150);
         }
 
-        /* Resizes the card so front/back content fits without scrolling, within sane limits */
+        /* Resizes the card so front/back content fits without scrolling, within sane limits.
+           Skips the resize entirely if the change is trivial, so equal-length cards don't visibly "snap". */
         function adjustCardHeight() {
             const container = document.querySelector('.card-container');
             const front = document.querySelector('.front');
@@ -497,7 +498,12 @@
             const minHeight = 300;
             const maxHeight = 620; // beyond this, .back's own overflow-y:auto kicks in as a fallback
             const needed = Math.max(front.scrollHeight, back.scrollHeight, minHeight);
-            container.style.height = Math.min(needed, maxHeight) + 'px';
+            const target = Math.min(needed, maxHeight);
+            const current = parseFloat(container.style.height) || container.offsetHeight;
+
+            if (Math.abs(target - current) > 6) {
+                container.style.height = target + 'px';
+            }
         }
 
         function flipCard(event) {
