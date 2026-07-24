@@ -493,8 +493,8 @@
                 .then(res => res.json())
                 .then(data => {
                     const el = document.getElementById('visit-count');
-                    if (el && typeof data.value === 'number') {
-                        el.innerText = `👁 ${data.value} lượt truy cập bài học này`;
+                    if (el && typeof data.count === 'number') {
+                        el.innerText = `👁 ${data.count} lượt truy cập bài học này`;
                     }
                 })
                 .catch(() => {});
