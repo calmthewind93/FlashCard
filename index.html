@@ -162,7 +162,7 @@
 		.shuffle-btn { background-color: #3b6b4c; /* Deep sage green */ box-shadow: 0 4px 10px rgba(59, 107, 76, 0.2); } 
 		.shuffle-btn:hover { background-color: #2e543b; box-shadow: 0 6px 14px rgba(59, 107, 76, 0.3); } 
 		.hint { color: #9c8e83; font-size: 13px; margin-top: 15px; letter-spacing: 0.5px; } 
-		.visit-count { color: #9c8e83; font-size: 13px; letter-spacing: 0.5px; margin-bottom: 15px; text-align: center; } 
+		.visit-count { color: #9c8e83; font-size: 13px; letter-spacing: 0.5px; margin-bottom: 15px; text-align: left; } 
 		.visit-count-main { display: inline-flex; align-items: center; gap: 5px; } 
 		.visit-count-vi { font-size: 11px; font-style: italic; color: #b3a89d; margin-top: 2px; }
 		#error-msg { color: #bd2c2c; font-weight: bold; text-align: center; display: none; margin-bottom: 20px; background: #fff0f0; padding: 12px 24px; border-radius: 10px; border: 1px solid #ffcccc; } 
@@ -388,6 +388,8 @@
             </div>
         </div>
     </div>
+	
+	<div class="visit-count" id="visit-count"></div>
 
     <div class="controls">
         <button onclick="prevCard(event)" title="Front" aria-label="Front">
@@ -403,9 +405,7 @@
         <button onclick="shuffleCards(event)" class="shuffle-btn" title="Shuffle" aria-label="Shuffle">
             <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h3.5c1.2 0 2.3.6 3 1.6l7 9.8c.7 1 1.8 1.6 3 1.6H22"/><path d="M18 3l3 3-3 3"/><path d="M4 18h3.5c1.2 0 2.3-.6 3-1.6l.7-1"/><path d="M18 21l3-3-3-3"/></svg>
         </button>
-    </div>
-	
-	<div class="visit-count" id="visit-count"></div>
+    </div>	
 
     <script>
         let vocab = [];
@@ -497,7 +497,7 @@
                     const el = document.getElementById('visit-count');
                     if (el && typeof data.count === 'number') {
                         const eyeIcon = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9c8e83" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>`;
-                        el.innerHTML = `<div class="visit-count-main">${eyeIcon} ${data.count} views of this lesson</div><div class="visit-count-vi">${data.count} lượt truy cập bài học này</div>`;
+                        el.innerHTML = `<div class="visit-count-main">${eyeIcon} ${data.count} views of this lesson</div>`;
                     }
                 })
                 .catch(() => {});
