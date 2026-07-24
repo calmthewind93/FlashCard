@@ -162,7 +162,9 @@
 		.shuffle-btn { background-color: #3b6b4c; /* Deep sage green */ box-shadow: 0 4px 10px rgba(59, 107, 76, 0.2); } 
 		.shuffle-btn:hover { background-color: #2e543b; box-shadow: 0 6px 14px rgba(59, 107, 76, 0.3); } 
 		.hint { color: #9c8e83; font-size: 13px; margin-top: 15px; letter-spacing: 0.5px; } 
-		.visit-count { color: #9c8e83; font-size: 13px; letter-spacing: 0.5px; margin-bottom: 15px; text-align: center; }
+		.visit-count { color: #9c8e83; font-size: 13px; letter-spacing: 0.5px; margin-bottom: 15px; text-align: center; } 
+		.visit-count-main { display: inline-flex; align-items: center; gap: 5px; } 
+		.visit-count-vi { font-size: 11px; font-style: italic; color: #b3a89d; margin-top: 2px; }
 		#error-msg { color: #bd2c2c; font-weight: bold; text-align: center; display: none; margin-bottom: 20px; background: #fff0f0; padding: 12px 24px; border-radius: 10px; border: 1px solid #ffcccc; } 
 		.error-msg-vi { font-size: 11px; font-weight: 600; color: #a12323; margin-top: 4px; }
 	</style>
@@ -494,7 +496,8 @@
                 .then(data => {
                     const el = document.getElementById('visit-count');
                     if (el && typeof data.count === 'number') {
-                        el.innerText = `👁 ${data.count} lượt truy cập bài học này`;
+                        const eyeIcon = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9c8e83" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>`;
+                        el.innerHTML = `<div class="visit-count-main">${eyeIcon} ${data.count} views of this lesson</div><div class="visit-count-vi">${data.count} lượt truy cập bài học này</div>`;
                     }
                 })
                 .catch(() => {});
